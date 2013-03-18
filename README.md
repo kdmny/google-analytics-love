@@ -43,7 +43,7 @@ elements are tracked by default:
   * input[type=button] 
   * button
 
-You can add custom data to each click event by setting the @ga_url URI param in your controller.  This example logs data that would be useful in making a cohort analysis.
+You can add custom data to each click event by setting the `@ga_url` URI param in your controller.  This example logs data that would be useful in making a cohort analysis.
 
     class ApplicationController < ActionController::Base
       ...
