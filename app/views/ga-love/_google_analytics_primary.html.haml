@@ -1,0 +1,14 @@
+- if Rails.env.production?
+  :javascript
+    try {
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', #{AppConfig["google_analytics_stream_id"]}]);
+      _gaq.push(['_trackPageview', "#{url}"]);
+    } catch(err) {$('#ga_errors').append("<p>" + err + "</p>");}
+
+
+  :javascript
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '#{AppConfig["google_analytics_id"]}']);
+    _gaq.push(['_setDomainName', '#{HOST}']);
+    _gaq.push(['_trackPageview']);

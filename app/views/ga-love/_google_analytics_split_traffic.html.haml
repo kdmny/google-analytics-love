@@ -1,0 +1,100 @@
+- if @error_404
+  - url = "/404?page=#{request.fullpath}&from=#{request.referer}"
+- else
+  - url = URI.parse(request.fullpath)
+  - url.query ||= "ga=1"
+  - if @ga_user
+    - url.query += "&#{@ga_user.to_query}"
+
+:javascript
+  var debug_on = /debug/i.test($(location).attr('href').toLowerCase());
+
+  function class_type_or_click(element){
+    var this_is_sparta ="click:";
+    var story_id = "";
+    var story = $(element).parents(".item.active, .story");
+    if(story.length > 0){
+      story_id = "story_" + $(story[0]).get(0).id.split("_")[1];
+    }
+    var val = $(element).attr("value");
+    var tag_name = $(element).get(0).tagName;
+    var text_val = $(element).text();
+    var alt = $(element).attr("alt");
+    var data = [val, text_val, tag_name, alt, story_id];
+
+    data = _.select(data, function(e){ 
+      return !_.isNull(e) && !_.isUndefined(e);
+    });
+    this_is_sparta += _.map(data, function(e){return e.replace(/\n*/, "");}).join(":");
+    
+    return this_is_sparta.replace(/\s+/g,'_');
+  }
+
+  function build_ga_string(element){
+    var build_ga;
+    var recursion = false;
+
+    build_ga = class_type_or_click(element);
+
+    var parent_list = $(element).parents();
+
+    if(recursion){
+      parent_list.each(function(index){
+        build_ga += '-' + class_type_or_click(this);
+      });
+    }
+
+   return build_ga;
+  }
+
+  function submit_ga_string(element, built_ga){
+    if(!_.isNull(element)){
+      built_ga = build_ga_string(element);
+    } 
+    uri_encoded_ga = encodeURI(built_ga);
+    var ts = new Date().getTime();
+    post_to_ga =  "#{url}&ts=" + ts +"&additional=["+uri_encoded_ga;
+
+    post_to_ga += "]";
+    
+
+    try{
+      if('#{Rails.env.to_s}' == "production"){
+        if(debug_on){
+          log(post_to_ga);
+        }
+      
+        _gaq.push(['_setAccount', '#{AppConfig["google_analytics_stream_id"]}']);
+        _gaq.push(['_trackPageview', post_to_ga]);
+      }else{
+        log(post_to_ga); 
+      }
+    }
+    catch(err){
+      $('#ga_errors').append("<p>" + err + "</p>");
+    }
+  }
+
+  function generate_ga_from_element(element){
+    //currently unused for GA. Kept for obvious reasons
+     var clazz = $(element).attr("class");
+
+     var this_is_sparta_unused ="";
+      if (clazz){
+        this_is_sparta_unused += clazz.replace(/\s+/g, ':');
+      }else{
+        if(tag_name == "A"){
+          this_is_sparta_unused += "["+$(element).text().replace(/\s+/g,'_')+"-to-" + $(element).attr('href') +"]";
+        }else{
+         this_is_sparta_unused += tag_name;
+        }
+      }
+
+    return this_is_sparta_unused;
+  }
+  $(".pinit").live("click", function (e){ log("pin it liv");submit_ga_string(this); e.stopPropagation();e.preventDefault();return false; });  
+  $("a").live("click", function (e){ log("a liv");if(!$(e.target).parent().hasClass("pin-container")){submit_ga_string(this);} });
+
+  $("input[type=submit]").live("click", function (){ submit_ga_string(this); });
+  $("input[type=button]").live("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+  $("button").live("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });

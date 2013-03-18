@@ -1,0 +1,9 @@
+- @ga_url ||= ""
+#ga_errors.hidden
+  :javascript
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+
+
+= render :partial => 'ga-love/google_analytics_split_traffic', :locals => {:url => @ga_url}
+= render :partial => 'ga-love/google_analytics_primary', :locals => {:url => @ga_url}
