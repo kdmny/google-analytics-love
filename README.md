@@ -43,7 +43,7 @@ elements are tracked by default:
   * input[type=button] 
   * button
 
-You can add custom data to each click event by setting an object in your controller.  This example logs data that would be useful in making a cohort analysis.
+You can add custom data to each click event by setting the @ga_url URI param in your controller.  This example logs data that would be useful in making a cohort analysis.
 
     class ApplicationController < ActionController::Base
       ...
@@ -52,7 +52,7 @@ You can add custom data to each click event by setting an object in your control
       def ga_stuff
         @ga_url = URI.parse(request.fullpath)
         @ga_url.query ||= ""
-        session[:session_id] ||= nil
+        session[:session_id] ||= nil #force the session to have a value  
         @ga_user = {:session_id => request.session_options[:id]}
         if user_signed_in?
           @ga_user.merge!( {
