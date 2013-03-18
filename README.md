@@ -34,8 +34,8 @@ Include in your layout
 
 Sample Use
 ------------------
-By default, clicks are automatically tracked to `<YOUR STREAM ACCOUNT>` and pageviews are logged to `<YOUR CLEAN ACCOUNT>`. The following
-elements are tracked by the click stream automatically:
+Clicks are tracked to `<YOUR STREAM ACCOUNT>` and pageviews are logged to `<YOUR CLEAN ACCOUNT>`. The following
+elements are tracked by default:
 
   * .pinit
   * a
@@ -43,7 +43,7 @@ elements are tracked by the click stream automatically:
   * input[type=button] 
   * button
 
-You can add data to each click event easily by setting an object in your controller. This example makes it easy to make a cohort analysis of your users:
+You can add custom data to each click event by setting an object in your controller.  This example logs data that would be useful in making a cohort analysis.
 
     class ApplicationController < ActionController::Base
       ...
