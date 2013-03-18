@@ -34,7 +34,7 @@ Include in your layout
 
 Sample Use
 ------------------
-By default, clicks are automatically tracked to <YOUR STREAM ACCOUNT> and pageviews are logged to <YOUR CLEAN ACCOUNT>. The following
+By default, clicks are automatically tracked to `<YOUR STREAM ACCOUNT>` and pageviews are logged to `<YOUR CLEAN ACCOUNT>`. The following
 elements are tracked by the click stream automatically:
 
   * .pinit
