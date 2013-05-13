@@ -3,7 +3,7 @@
     :javascript
       try {
         var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', #{AppConfig["google_analytics_stream_id"]}]);
+        _gaq.push(['_setAccount', '#{AppConfig["google_analytics_stream_id"]}']);
         _gaq.push(['_trackPageview', "#{url}"]);
       } catch(err) {$('#ga_errors').append("<p>" + err + "</p>");}
 
