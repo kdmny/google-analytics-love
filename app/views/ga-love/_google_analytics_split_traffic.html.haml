@@ -92,9 +92,9 @@
 
     return this_is_sparta_unused;
   }
-  $(".pinit").live("click", function (e){ log("pin it liv");submit_ga_string(this); e.stopPropagation();e.preventDefault();return false; });  
-  $("a").live("click", function (e){ log("a liv");if(!$(e.target).parent().hasClass("pin-container")){submit_ga_string(this);} });
+  $(".pinit").on("click", function (e){ log("pin it liv");submit_ga_string(this); e.stopPropagation();e.preventDefault();return false; });  
+  $("a").on("click", function (e){ log("a liv");if(!$(e.target).parent().hasClass("pin-container")){submit_ga_string(this);} });
 
-  $("input[type=submit]").live("click", function (){ submit_ga_string(this); });
-  $("input[type=button]").live("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
-  $("button").live("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+  $("input[type=submit]").on("click", function (){ submit_ga_string(this); });
+  $("input[type=button]").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+  $("button").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
