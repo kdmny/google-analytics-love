@@ -8,7 +8,9 @@
 
 :javascript
   var debug_on = /debug/i.test($(location).attr('href').toLowerCase());
-
+  if(typeof(delayGAEvents) == "undefined"){
+    delayGAEvents = false;
+  }
   function class_type_or_click(element){
     var this_is_sparta ="click:";
     var story_id = "";
@@ -92,9 +94,18 @@
 
     return this_is_sparta_unused;
   }
-  $(".pinit").on("click", function (e){ log("pin it liv");submit_ga_string(this); e.stopPropagation();e.preventDefault();return false; });  
-  $("a").on("click", function (e){ log("a liv");if(!$(e.target).parent().hasClass("pin-container")){submit_ga_string(this);} });
-
-  $("input[type=submit]").on("click", function (){ submit_ga_string(this); });
-  $("input[type=button]").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
-  $("button").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+  var bindEvents = function(){
+    $("a").on("click", function (e){ submit_ga_string(this);});    
+    $("input[type=submit]").on("click", function (){ submit_ga_string(this); });
+    $("input[type=button]").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+    $("button").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
+  };
+  if(delayGAEvents){
+    $.get("/sessions/ga?path=#{CGI::escape(request.fullpath)}", function(url){
+      log("binding click events");
+      ga_url = url;
+      bindEvents();
+    });
+  } else {
+    bindEvents();
+  }
