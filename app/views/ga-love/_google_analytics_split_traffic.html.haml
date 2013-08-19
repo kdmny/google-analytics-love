@@ -14,16 +14,12 @@
   }
   function class_type_or_click(element){
     var this_is_sparta ="click:";
-    var story_id = "";
-    var story = $(element).parents(".item.active, .story");
-    if(story.length > 0){
-      story_id = "story_" + $(story[0]).get(0).id.split("_")[1];
-    }
     var val = $(element).attr("value");
     var tag_name = $(element).get(0).tagName;
     var text_val = $(element).text();
     var alt = $(element).attr("alt");
-    var data = [val, text_val, tag_name, alt, story_id];
+    var title = $(element).attr("title");
+    var data = [val, text_val, tag_name, alt, title];
 
     data = _.select(data, function(e){ 
       return !_.isNull(e) && !_.isUndefined(e);
@@ -56,7 +52,7 @@
     } 
     uri_encoded_ga = encodeURI(built_ga);
     var ts = new Date().getTime();
-    post_to_ga =  "#{ga_url}&ts=" + ts +"&additional=["+uri_encoded_ga;
+    post_to_ga =  ga_url + "&ts=" + ts +"&additional=["+uri_encoded_ga;
 
     post_to_ga += "]";
     
