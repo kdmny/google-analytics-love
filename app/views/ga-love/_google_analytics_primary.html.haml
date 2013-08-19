@@ -1,12 +1,4 @@
 - if Rails.env.production?
-  - unless AppConfig["google_analytics_stream_id"].blank?
-    :javascript
-      try {
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '#{AppConfig["google_analytics_stream_id"]}']);
-        _gaq.push(['_trackPageview', "#{url}"]);
-      } catch(err) {$('#ga_errors').append("<p>" + err + "</p>");}
-
   - unless AppConfig["google_analytics_id"].blank?
     :javascript
       var _gaq = _gaq || [];

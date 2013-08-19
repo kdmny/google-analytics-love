@@ -8,6 +8,7 @@
 
 :javascript
   var debug_on = /debug/i.test($(location).attr('href').toLowerCase());
+  var ga_url = "";
   if(typeof(delayGAEvents) == "undefined"){
     delayGAEvents = false;
   }
@@ -55,7 +56,7 @@
     } 
     uri_encoded_ga = encodeURI(built_ga);
     var ts = new Date().getTime();
-    post_to_ga =  "#{url}&ts=" + ts +"&additional=["+uri_encoded_ga;
+    post_to_ga =  "#{ga_url}&ts=" + ts +"&additional=["+uri_encoded_ga;
 
     post_to_ga += "]";
     
@@ -95,6 +96,12 @@
     return this_is_sparta_unused;
   }
   var bindEvents = function(){
+    try {
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '#{AppConfig["google_analytics_stream_id"]}']);
+      _gaq.push(['_trackPageview', ga_url]);
+    } catch(err) {}
+  
     $("a").on("click", function (e){ submit_ga_string(this);});    
     $("input[type=submit]").on("click", function (){ submit_ga_string(this); });
     $("input[type=button]").on("click", function (){ log("submitting ga string for input button");submit_ga_string(this); });
